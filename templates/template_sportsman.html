@@ -1,0 +1,118 @@
+<link rel="stylesheet" type="text/css" href="/js/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/js/tabulator.min.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/cupertino/jquery-ui.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/tabulator-tables@4.8.1/dist/css/tabulator.min.css" /> -->
+
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/tabulator.min.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+<script type="text/javascript" src="/js/xlsx.full.min.js"></script>
+
+<!-- <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.8.1/dist/js/tabulator.min.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="https://fst-otm.yurboc.ru/table_style.css?v=20221117" />
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/static_json_data.js?v=20221117"></script>
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/table_handlers.js?v=20221117"></script>
+
+<a
+ href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_c5ldL06DTHd_iTk2-7_zAirWCuh7AxoET10lZENDoqSpb0pVVDtTaByPU9zo5X6YVLfXFPWz79MF/pubhtml#"
+ target="_blank">
+ <span style="color:red">Если таблица не отображается, то воспользуйтесь внешней ссылкой</span>
+</a>
+<br><br>
+<span style="color:green">Ниже отображаются ранее присвоенные разряды, чтобы ознакомиться с документами, которые находятся на присвоении новых или подтверждении имеющихся разрядов, то переходите по ссылке к <a href="https://fst-otm.net/index/razrjad_docs/0-25">реестру представлений</a></span><br><br>
+
+<div class="table_control_box">
+ <label for="find_name_str">Поиск: по ФИО:</label>
+ <input type="text" id="find_name_str" onkeyup="applyFilters();">
+ <label for="find_club_str">по клубу:</label>
+ <input type="text" id="find_club_str" onkeyup="applyFilters();">
+ <label for="find_ias">по ID:</label>
+ <input type="text" id="find_ias" onkeyup="applyFilters();">
+ <button id="find_btn">Найти</button>
+ <button id="clear_btn">Сброс</button>
+ <button id="show_info_btn">Информация</button>
+ <button id="xlsx_btn">Экспорт в Excel</button>
+
+ <span id="search-results"></span>
+</div>
+ 
+<div class="table_control_box">
+ <label for="prog">Дисциплина:</label>
+ <select name="prog" id="prog">
+ <option value="все" selected="selected">Все</option>
+ <option value="дис">Дистанция</option>
+ <option value="мар">Маршрут</option>
+ <option value="сев">Северная ходьба</option>
+ </select>
+
+ <label for="sport">Вид:</label>
+ <select name="sport" id="sport">
+ <option value="все" selected="selected">Все виды</option>
+ <option value="пеш">Пешеходный</option>
+ <option value="лыж">Лыжный</option>
+ <option value="вод">Водный</option>
+ <option value="гор">Горный</option>
+ <option value="спе">Спелео</option>
+ <option value="кон">Конный</option>
+ <option value="вел">Велосипедный</option>
+ <option value="авт">Авто-мото</option>
+ </select>
+
+ <label for="rank">Разряды и звания:</label>
+ <select name="rank" id="rank">
+ <option value="все">Все</option>
+ <optgroup label="Разряды">
+ <option value="КМС">КМС</option>
+ <option value="1 разряд">1 разряд</option>
+ <option value="2 разряд">2 разряд</option>
+ <option value="3 разряд">3 разряд</option>
+ <option value="Юношеские">Юношеские</option>
+ </optgroup>
+ <optgroup label="Звания">
+ <option value="МСМК">МСМК</option>
+ <option value="МС">МС</option>
+ </optgroup>
+ <optgroup label="Почётные звания">
+ <option value="ЗМС">ЗМС</option>
+ </optgroup>
+ </select>
+
+ <label for="date">По датам:</label>
+ <select name="date" id="date">
+ <option value="все">Все</option>
+ <optgroup label="По дате присвоения">
+ <option value="last1month">За последний месяц</option>
+ <option value="last2month">За последние 2 месяца</option>
+ <option value="last6month">За последние полгода</option>
+ </optgroup>
+ <optgroup label="По дате завершения">
+ <option value="expNo">Действующие</option>
+ <option value="expYes">Уже завершились</option>
+ <option value="exp1month">Менее 4 недель</option>
+ <option value="exp3month">Менее 3 месяцев</option>
+ </optgroup>
+ </select>
+ 
+</div>
+
+<div>
+ <div id="full-table" class="table_main_box"></div>
+</div>
+
+<div id="dialog_about" title="Присвоение спортивных разрядов Москва">
+ <p>
+ Если ваши документы по разрядам/званиям находятся в ФСТ-ОТМ на рассмотрении,
+ но не отображаются в данном табло, напишите, пожалуйста, об этом на эл.почту
+ <a href="mailto:christy33@mail.ru">christy33@mail.ru</a> или в контакте
+ Кристине Палайма <a target="_blank" href="https://vk.com/christy33">https://vk.com/christy33</a>
+ </p>
+ <p>
+ Дата модификации: <strong><span id="modified_date_placeholder">неизвестно</span></strong>
+ </p>
+ <p>
+ Последняя синхронизация: <strong><span id="generated_date_placeholder">неизвестно</span></strong>
+ </p>
+</div>

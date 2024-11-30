@@ -1,0 +1,110 @@
+<span style="color:red">Если Вы не нашли себя в этом списке, вероятно, вам уже присвоен(о) разряд/звание, проверьте себя в <a href="/index/sportsmeny_moskvy_sportivnyj_turizm/0-42">реестре спортсменов</a></span><br><br>
+
+<!-- <iframe src="https://docs.google.com/spreadsheets/d/1_gSSOhOzai4jAiOrA26NxqwfEe3FqQ6-aYAf9tB7XmE/pubhtml?gid=197509376&amp;widget=true&amp;headers=false" width="100%" height="1450px"></iframe> -->
+
+<!-- ---------- ЗДЕСЬ НАЧИНАЕТСЯ КОД ТАБЛИЦ ---------- -->
+
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/cupertino/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/tabulator-tables@4.8.1/dist/css/tabulator.min.css" />
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.8.1/dist/js/tabulator.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+<script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://fst-otm.yurboc.ru/table_style.css?v=20221211" />
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/static_json_data_cat.js?v=20221211"></script>
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/table_handlers_cat.js?v=20221211"></script>
+
+<div class="table_control_box">
+ <label for="find_name_str">Поиск: по ФИО:</label>
+ <input type="text" id="find_name_str" onkeyup="applyFilters();" />
+ <label for="find_club_str">по клубу:</label>
+ <input type="text" id="find_club_str" onkeyup="applyFilters();">
+ <button id="find_btn">Найти</button>
+ <button id="clear_btn">Сброс</button>
+ <button id="show_info_btn">Информация</button>
+ <button id="xlsx_btn">Экспорт в Excel</button>
+ <button id="show_stat_btn">Статистика</button>
+ <span id="search-results"></span>
+</div>
+
+<div class="table_control_box">
+ <label for="prog">Дисциплина:</label>
+ <select name="prog" id="prog">
+ <option value="все" selected="selected">Все</option>
+ <option value="дис">Дистанция</option>
+ <option value="мар">Маршрут</option>
+ <option value="сев">Северная ходьба</option>
+ </select>
+
+ <label for="rank">Разряды и звания:</label>
+ <select name="rank" id="rank">
+ <option value="все">Все</option>
+ <optgroup label="Разряды">
+ <option value="КМС">КМС</option>
+ <option value="1 разряд">1 разряд</option>
+ <option value="2 разряд">2 разряд</option>
+ <option value="3 разряд">3 разряд</option>
+ <option value="Юношеские">Юношеские</option>
+ </optgroup>
+ <optgroup label="Звания">
+ <option value="МСМК">МСМК</option>
+ <option value="МС">МС</option>
+ </optgroup>
+ </select>
+ 
+ <label for="review_state">Статус рассмотрения документов:</label>
+ <select name="review_state" id="review_state">
+ <option value="все" selected="selected">Все</option>
+ <option value="на рассмотрении в Москомспорте">на рассмотрении в Москомспорте</option>
+ <option value="документы на присвоении в ЦСТиСК">документы на присвоении в ЦСТиСК</option>
+ <option value="на рассмотрении">на рассмотрении</option>
+ <option value="представления на оформлении">представления на оформлении</option>
+ <option value="разрядные книжки на оформлении, разряд присвоен">разрядные книжки на оформлении, разряд присвоен</option>
+ <option value="документы готовы к выдаче">документы готовы к выдаче</option>
+ <option value="отказано в присвоении">отказано в присвоении</option>
+ <option value="нужен скан разрядной книжки">нужен скан разрядной книжки</option>
+ <option value="возврат на доработку">возврат на доработку</option>
+ <option value="проверка КС">проверка КС</option>
+ <option value="на рассмотрении в Минспорте РФ">на рассмотрении в Минспорте РФ</option>
+ <option value="книжка на оформлении">книжка на оформлении</option>
+ <option value="требуется представить разрядную книжку">требуется представить разрядную книжку</option>
+ <option value="документы на присвоении в ЦФКиС">документы на присвоении в ЦФКиС</option>
+ </select>
+</div>
+
+<div>
+ <div id="full-table" class="table_main_box"></div>
+</div>
+
+<div id="dialog_about" title="Присвоение спортивных разрядов Москва">
+ <p>
+ Если ваши документы по спортивным разрядам находятся в ФСТ-ОТМ на рассмотрении,
+ но не отображаются в данном табло, напишите, пожалуйста, об этом на эл.почту
+ <a href="mailto:christy33@mail.ru">christy33@mail.ru</a> или в контакте
+ Кристине Палайма <a target="_blank" href="https://vk.com/christy33">https://vk.com/christy33</a>
+ </p>
+ <p>
+ Дата модификации: <strong><span id="modified_date_placeholder">неизвестно</span></strong>
+ </p>
+ <p>
+ Последняя синхронизация: <strong><span id="generated_date_placeholder">неизвестно</span></strong>
+ </p>
+</div>
+
+<div id="dialog_stat" title="Присвоение спортивных разрядов Москва">
+ <p>
+ Статистика по статусам:
+ </p>
+ <p>
+ <span id="stat_placeholder">отсутствует</span>
+ </p>
+</div>
+
+<div id="dialog_info" title="Информация">
+ <p>
+ <span id="help_text_placeholder">Ожидание данных из справочной системы...</span>
+ </p>
+</div> 
+
+<!-- ---------- ЗДЕСЬ ЗАКАНЧИВАЕТСЯ КОД ТАБЛИЦ ---------- -->

@@ -1,0 +1,130 @@
+<span style="color:red">Чтобы открыть приказ или протокол подтверждения нажмите правую кнопку мыши на номере приказа/распоряжения</span><br><br>
+
+<!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfT8HVoOqWyGWFgn8A3MSf4_jb2qy9C34BjoruTEBRc9Zr31pyBmsQzEkeNfeqzHBvCrzRwqdezTRU/pubhtml?gid=37328945&amp;single=true&amp;widget=true&amp;headers=false" width="100%" height="1450px"></iframe> -->
+
+<!-- ---------- ЗДЕСЬ НАЧИНАЕТСЯ КОД ТАБЛИЦ ---------- -->
+
+<link rel="stylesheet" type="text/css" href="/js/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/js/tabulator.min.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/cupertino/jquery-ui.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/tabulator-tables@4.8.1/dist/css/tabulator.min.css" /> -->
+
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/tabulator.min.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+<script type="text/javascript" src="/js/xlsx.full.min.js"></script>
+
+<!-- <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.8.1/dist/js/tabulator.min.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="https://fst-otm.yurboc.ru/table_style.css?v=20220915" />
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/static_json_data_ref.js?v=20220915"></script>
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/table_handlers_ref.js?v=20220915"></script>
+
+<div class="table_control_box">
+ <label for="find_name_str">Поиск: по ФИО:</label>
+ <input type="text" id="find_name_str" onkeyup="applyFilters();">
+ <label for="find_region_str">по региону:</label>
+ <input type="text" id="find_region_str" onkeyup="applyFilters();">
+ <button id="find_btn">Найти</button>
+ <button id="clear_btn">Сброс</button>
+ <button id="show_info_btn">Информация</button>
+
+ <label for="rank">Категория:</label>
+ <select name="rank" id="rank">
+ <option value="все">Все</option>
+ <option value="б/к">б/к</option>
+ <optgroup label="Категории">
+ <option value="СС3К">СС3К</option>
+ <option value="СС2К">СС2К</option>
+ <option value="СС1К">СС1К</option>
+ <option value="ССВК">ССВК</option>
+ <option value="ЮС">ЮС</option>
+ <option value="СВК/СРК">СВК/СРК</option>
+ <optgroup label="Условия">
+ <option value="СС2К+">СС2К и выше</option>
+ <option value="СС1К+">СС1К и выше</option>
+ </optgroup>
+ </select>
+</div>
+
+<div class="table_control_box">
+ <label for="dist_sport">Вид "дистанция":</label>
+ <select name="dist_sport" id="dist_sport">
+ <option value="все" selected="selected">Все виды</option>
+ <option value="отс">Отсутствует</option>
+ <option value="име">Имеется</option>
+ <optgroup label="Виды">
+ <option value="пеш">Пешеходный</option>
+ <option value="лыж">Лыжный</option>
+ <option value="вод">Водный</option>
+ <option value="гор">Горный</option>
+ <option value="спе">Спелео</option>
+ <option value="кон">Конный</option>
+ <option value="вел">Велосипедный</option>
+ <option value="авт">Авто-мото</option>
+ <option value="сев">Северная ходьба</option>
+ <option value="сек">Секретариат</option>
+ </optgroup>
+ </select>
+
+ <label for="route_sport">Вид "маршрут":</label>
+ <select name="route_sport" id="route_sport">
+ <option value="все" selected="selected">Все виды</option>
+ <option value="отс">Отсутствует</option>
+ <option value="име">Имеется</option>
+ <optgroup label="Виды">
+ <option value="пеш">Пешеходный</option>
+ <option value="лыж">Лыжный</option>
+ <option value="вод">Водный</option>
+ <option value="гор">Горный</option>
+ <option value="спе">Спелео</option>
+ <option value="кон">Конный</option>
+ <option value="вел">Велосипедный</option>
+ <option value="авт">Авто-мото</option>
+ <option value="сев">Северная ходьба</option>
+ <option value="сек">Секретариат</option>
+ </optgroup>
+ </select>
+
+ <label for="date">По датам:</label>
+ <select name="date" id="date">
+ <option value="все">Все</option>
+ <optgroup label="По дате присвоения">
+ <option value="last1month">За последний месяц</option>
+ <option value="last2month">За последние 2 месяца</option>
+ <option value="last6month">За последние полгода</option>
+ </optgroup>
+ <optgroup label="По дате завершения">
+ <option value="expNo">Действующие</option>
+ <option value="expYes">Уже завершились</option>
+ <option value="exp1month">Менее 4 недель</option>
+ <option value="exp3month">Менее 3 месяцев</option>
+ </optgroup>
+ </select>
+ <button id="xlsx_btn">Экспорт в Excel</button>
+
+ <span id="search-results"></span>
+</div>
+
+<div>
+ <div id="full-table" class="table_main_box"></div>
+</div>
+
+<div id="dialog_about" title="Присвоение судейских категорий Москва">
+ <p>
+ Если ваши документы по судейским категориям находятся в ФСТ-ОТМ на рассмотрении,
+ но не отображаются в данном табло, напишите, пожалуйста, об этом на эл.почту
+ <a href="mailto:christy33@mail.ru">christy33@mail.ru</a> или в контакте
+ Кристине Палайма <a target="_blank" href="https://vk.com/christy33">https://vk.com/christy33</a>
+ </p>
+ <p>
+ Дата модификации: <strong><span id="modified_date_placeholder">неизвестно</span></strong>
+ </p>
+ <p>
+ Последняя синхронизация: <strong><span id="generated_date_placeholder">неизвестно</span></strong>
+ </p>
+</div>
+
+<!-- ---------- ЗДЕСЬ ЗАКАНЧИВАЕТСЯ КОД ТАБЛИЦ ---------- -->

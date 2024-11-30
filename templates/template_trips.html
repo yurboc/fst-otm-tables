@@ -1,0 +1,100 @@
+<p>Тест новых идей.</p>
+
+<!-- ---------- ЗДЕСЬ НАЧИНАЕТСЯ КОД ТАБЛИЦ ---------- -->
+
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/cupertino/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/tabulator-tables@4.8.1/dist/css/tabulator.min.css" />
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.8.1/dist/js/tabulator.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://fst-otm.yurboc.ru/table_style.css?v=20211225" />
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/static_json_data_trips.js?v=20211225"></script>
+<script type="text/javascript" src="https://fst-otm.yurboc.ru/table_handlers_trips.js?v=20211225"></script>
+
+<div class="table_control_box">
+ <label for="find_name_str">Поиск: по ФИО:</label>
+ <input type="text" id="find_name_str" onkeyup="applyFilters();">
+ <label for="find_club_str">по организации:</label>
+ <input type="text" id="find_club_str" onkeyup="applyFilters();">
+ <button id="find_btn">Найти</button>
+ <button id="clear_btn">Сброс</button>
+ <button id="show_info_btn">Информация</button>
+ 
+ <label for="sport_type">Вид маршрута:</label>
+ <select name="sport_type" id="sport_type">
+ <option value="все" selected="selected">Все виды</option>
+ <option value="пеш">Пешеходный</option>
+ <option value="лыж">Лыжный</option>
+ <option value="вод">Водный</option>
+ <option value="гор">Горный</option>
+ <option value="спе">Спелео</option>
+ <option value="кон">Конный</option>
+ <option value="вел">Велосипедный</option>
+ <option value="авт">Авто-мото</option>
+ <option value="сев">Северная ходьба</option>
+ </select>
+</div>
+ 
+<div class="table_control_box">
+ <button id="visualization_btn">Визуализация</button>
+ <label for="difficulty">Планируемая к.с.:</label>
+ <select name="difficulty" id="difficulty">
+ <option value="все">Все</option>
+ <option value="н/к">н/к</option>
+ <optgroup label="Категорийные">
+ <option value="1">1 к.с.</option>
+ <option value="2">2 к.с.</option>
+ <option value="3">3 к.с.</option>
+ <option value="4">4 к.с.</option>
+ <option value="5">5 к.с.</option>
+ <option value="6">6 к.с.</option>
+ </optgroup>
+ </select>
+
+ <label for="date">По датам:</label>
+ <select name="date" id="date">
+ <option value="все">Все</option>
+ <option value="past">Прошедшие</option>
+ <option value="present">Текущие</option>
+ <option value="future">Будущие</option>
+ <optgroup label="Будущие: по дате старта">
+ <option value="next1month">Ближайший месяц</option>
+ <option value="next2month">Ближайшие 2 месяца</option>
+ <option value="next6month">Ближайшие полгода</option>
+ </optgroup>
+ <optgroup label="Прошедшие: по дате финиша">
+ <option value="prev1month">Прошедший месяц</option>
+ <option value="prev2month">Прошедшие 2 месяца</option>
+ <option value="prev6month">Прошедшие полгода</option>
+ </optgroup>
+ </select>
+
+ <span id="search-results"></span>
+</div>
+
+<div>
+ <div id="full-table" class="table_main_box"></div>
+</div>
+
+<div>
+ <div id="visualization"></div>
+</div>
+
+<div id="dialog_about" title="Журнал МКК ФСТ-ОТМ 2020 Москва">
+ <p>
+ Если ваши документы по спортивным походам находятся в ФСТ-ОТМ на рассмотрении,
+ но не отображаются в данном табло, напишите, пожалуйста, об этом на эл.почту
+ <a href="mailto:christy33@mail.ru">christy33@mail.ru</a> или в контакте
+ Кристине Палайма <a target="_blank" href="https://vk.com/christy33">https://vk.com/christy33</a>
+ </p>
+ <p>
+ Дата модификации: <strong><span id="modified_date_placeholder">неизвестно</span></strong>
+ </p>
+ <p>
+ Последняя синхронизация: <strong><span id="generated_date_placeholder">неизвестно</span></strong>
+ </p>
+</div>
+
+<!-- ---------- ЗДЕСЬ ЗАКАНЧИВАЕТСЯ КОД ТАБЛИЦ ---------- -->
