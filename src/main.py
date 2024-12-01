@@ -44,6 +44,6 @@ if __name__ == '__main__':
     config = load_config(CONFIG_FILE)
     for table_params in config:
         convert_table(converter, table_params)
-        upload_table(uploader, table_params)
+        #upload_table(uploader, table_params)
     uploader.quit()
     print('Done converting!')

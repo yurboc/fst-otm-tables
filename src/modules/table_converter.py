@@ -29,15 +29,16 @@ class TableConverter:
     def readTable(self):
         self.rawData = self.service_sheets.spreadsheets().values().get(spreadsheetId=self.spreadsheetId, range=self.spreadsheetRange).execute()
 
-    def parseData(self, columns):
+    def parseData(self, fields):
         self.combinedData = list()
         # Iterate over rows
         for rowData in self.rawData['values']:
             tmpRow: dict[str, str] = dict()
             # Iterate over columns
-            for columnIndex, columnValue in enumerate(rowData):
-                if str(columnIndex) in columns:
-                    tmpRow[columns[str(columnIndex)]] = columnValue
+            for field in fields:
+                col_id = field["col"]
+                col_name = field["name"]
+                tmpRow[col_name] = rowData[col_id] if col_id < len(rowData) else ""
             # Save row
             self.combinedData.append(tmpRow)
         # Get date of last update and generation

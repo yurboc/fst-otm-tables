@@ -6,21 +6,21 @@
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data.js",
     "spreadsheetId": "1bkbojWWjPXLkOXGd6yZRqDVlsyXurWxL3ePQzvTM3Jc",
     "range": "Сводный!A2:M",
-    "fields": {
-      "0": "id",
-      "1": "name",
-      "2": "club",
-      "3": "rank",
-      "4": "date_apply",
-      "5": "order_no",
-      "6": "order_link",
-      "7": "rank_state",
-      "8": "date_expire",
-      "9": "prog_type",
-      "10": "sport_type",
-      "11": "ias_number",
-      "12": "birth_year"
-    }
+    "fields": [
+      {"col": 0,  "name": "id"},
+      {"col": 1,  "name": "name"},
+      {"col": 2,  "name": "club"},
+      {"col": 3,  "name": "rank"},
+      {"col": 4,  "name": "date_apply"},
+      {"col": 5,  "name": "order_no"},
+      {"col": 6,  "name": "order_link"},
+      {"col": 7,  "name": "rank_state"},
+      {"col": 8,  "name": "date_expire"},
+      {"col": 9,  "name": "prog_type"},
+      {"col": 10, "name": "sport_type"},
+      {"col": 11, "name": "ias_number"},
+      {"col": 12, "name": "birth_year"}
+    ]
   },
   {
     "generator_name": "Разряды",
@@ -29,45 +29,45 @@
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_cat.js",
     "spreadsheetId": "1_gSSOhOzai4jAiOrA26NxqwfEe3FqQ6-aYAf9tB7XmE",
     "range": "Сведения!A2:J",
-    "fields": {
-      "0": "id",
-      "1": "name",
-      "2": "date_apply",
-      "3": "prog_type",
-      "4": "rank",
-      "5": "review_state",
-      "6": "date_trans_doc",
-      "7": "order_no",
-      "8": "req_app_date",
-      "9": "club"
-    }
+    "fields": [
+      {"col": 0, "name": "id"},
+      {"col": 1, "name": "name"},
+      {"col": 2, "name": "date_apply"},
+      {"col": 3, "name": "prog_type"},
+      {"col": 4, "name": "rank"},
+      {"col": 5, "name": "review_state"},
+      {"col": 6, "name": "date_trans_doc"},
+      {"col": 7, "name": "order_no"},
+      {"col": 8, "name": "req_app_date"},
+      {"col": 9, "name": "club"}
+    ]
   },
-  {
+    {
     "generator_name": "Судьи",
     "target_url": "https://fst-otm.net/index/sportivnye_sudi_fst_otm/0-27",
     "output_file": "static_json_data_ref.js",
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_ref.js",
     "spreadsheetId": "1CnEQgYXVq-dXrgcSGr-BmnaQ7LsKDSK4gNXbjF7WRSg",
     "range": "(судьи Москвы)!A2:Q",
-    "fields": {
-      "0": "id",
-      "1": "name",
-      "2": "rank",
-      "3": "region",
-      "4": "rank_state",
-      "5": "date_apply",
-      "6": "date_expire",
-      "7": "order_no",
-      "8": "order_issuer",
-      "9": "dist_type",
-      "10": "route_type",
-      "11": "qual_date",
-      "12": "statement_link",
-      "13": "req_app_date",
-      "14": "primary_link",
-      "15": "order_link",
-      "16": "confirm_link"
-    }
+    "fields": [
+      {"col": 0,  "name": "id"},
+      {"col": 1,  "name": "name"},
+      {"col": 2,  "name": "rank"},
+      {"col": 3,  "name": "region"},
+      {"col": 4,  "name": "rank_state"},
+      {"col": 5,  "name": "date_apply"},
+      {"col": 6,  "name": "date_expire"},
+      {"col": 7,  "name": "order_no"},
+      {"col": 8,  "name": "order_issuer"},
+      {"col": 9,  "name": "dist_type"},
+      {"col": 10, "name": "route_type"},
+      {"col": 11, "name": "qual_date"},
+      {"col": 12, "name": "statement_link"},
+      {"col": 13, "name": "req_app_date"},
+      {"col": 14, "name": "primary_link"},
+      {"col": 15, "name": "order_link"},
+      {"col": 16, "name": "confirm_link"}
+    ]
   },
   {
     "generator_name": "Маршруты",
@@ -76,22 +76,22 @@
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_trips.js",
     "spreadsheetId": "1RQsv5J4PolYGakte1GIYGtBt2yvPswmWqX7fdkUh-T8",
     "range": "Журнал_импорт!A2:O",
-    "fields": {
-      "0": "id",
-      "1": "book_id",
-      "2": "name",
-      "3": "club",
-      "4": "part_cnt",
-      "5": "sport_type",
-      "6": "difficulty",
-      "7": "region",
-      "8": "sub_region",
-      "9": "reg_date",
-      "10": "start_date",
-      "11": "finish_date",
-      "12": "full_trip_date",
-      "13": "mkk_leader",
-      "14": "mkk_list"
-    }
+    "fields": [
+      {"col": 0,  "name": "id"},
+      {"col": 1,  "name": "book_id"},
+      {"col": 2,  "name": "name"},
+      {"col": 3,  "name": "club"},
+      {"col": 4,  "name": "part_cnt"},
+      {"col": 5,  "name": "sport_type"},
+      {"col": 6,  "name": "difficulty"},
+      {"col": 7,  "name": "region"},
+      {"col": 8,  "name": "sub_region"},
+      {"col": 9,  "name": "reg_date"},
+      {"col": 10, "name": "start_date"},
+      {"col": 11, "name": "finish_date"},
+      {"col": 12, "name": "full_trip_date"},
+      {"col": 13, "name": "mkk_leader"},
+      {"col": 14, "name": "mkk_list"}
+    ]
   }
 ]
