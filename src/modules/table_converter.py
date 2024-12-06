@@ -1,9 +1,12 @@
+from oauth2client.service_account import ServiceAccountCredentials
 from dateutil import parser
 import datetime
 import json
 import httplib2
 import apiclient.discovery
-from oauth2client.service_account import ServiceAccountCredentials
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TableConverter:
@@ -12,6 +15,7 @@ class TableConverter:
 
     def auth(self):
         # Read credentials from file
+        logger.info(f"Authenticating to Google...")
         cred = ServiceAccountCredentials.from_json_keyfile_name(
             self.credentials,
             [
@@ -24,6 +28,7 @@ class TableConverter:
         # Select service modules
         self.service_sheets = apiclient.discovery.build("sheets", "v4", http=httpAuth)
         self.service_drive = apiclient.discovery.build("drive", "v3", http=httpAuth)
+        logger.info("Done authenticating to Google")
 
     def setSpreadsheetId(self, spreadsheetId):
         self.spreadsheetId = spreadsheetId
@@ -32,14 +37,17 @@ class TableConverter:
         self.spreadsheetRange = spreadsheetRange
 
     def readTable(self):
+        logger.info(f"Reading table {self.spreadsheetId}...")
         self.rawData = (
             self.service_sheets.spreadsheets()
             .values()
             .get(spreadsheetId=self.spreadsheetId, range=self.spreadsheetRange)
             .execute()
         )
+        logger.info(f"Done reading table {self.spreadsheetId}")
 
     def parseData(self, fields):
+        logger.info("Parsing data...")
         self.combinedData = list()
         # Iterate over rows
         for rowData in self.rawData["values"]:
@@ -67,13 +75,14 @@ class TableConverter:
         modifiedTimeParsed = parser.parse(modifiedTime)
         self.lastUpdateDate = modifiedTimeParsed.strftime("%d.%m.%Y %H:%M:%S")
         self.generationDate = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-        # Print details
-        print(f"File name:       {self.docName}")
-        print(f"Last update:     {self.lastUpdateDate}")
-        print(f"Generation date: {self.generationDate}")
-        print(f"Lines count:     {len(self.combinedData)}")
+        # Write details to log
+        logger.info(f"File name: {self.docName}")
+        logger.info(f"Last update: {self.lastUpdateDate}")
+        logger.info(f"Generation date: {self.generationDate}")
+        logger.info(f"Lines count: {len(self.combinedData)}")
 
     def saveToFile(self, filename):
+        logger.info("Saving to file...")
         with open(filename, "w") as f:
             f.write("var php_data = ")
             f.write(
@@ -82,4 +91,4 @@ class TableConverter:
             f.write(";\n")
             f.write(f'var modified_date="{self.lastUpdateDate}";\n')
             f.write(f'var generated_date="{self.generationDate}";\n')
-        print(f"Saved to file:   {filename}")
+        logger.info(f"Saved to file: {filename}")
