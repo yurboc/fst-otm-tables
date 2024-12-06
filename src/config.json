@@ -1,6 +1,6 @@
 [
   {
-    "generator_name": "Спортсмены",
+    "generator_name": "sportsmeny",
     "target_url": "https://fst-otm.net/index/sportsmeny_moskvy_sportivnyj_turizm/0-42",
     "output_file": "static_json_data.js",
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data.js",
@@ -23,7 +23,7 @@
     ]
   },
   {
-    "generator_name": "Разряды",
+    "generator_name": "razrjad_docs",
     "target_url": "https://fst-otm.net/index/razrjad_docs/0-25",
     "output_file": "static_json_data_cat.js",
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_cat.js",
@@ -43,7 +43,7 @@
     ]
   },
     {
-    "generator_name": "Судьи",
+    "generator_name": "sportivnye_sudi",
     "target_url": "https://fst-otm.net/index/sportivnye_sudi_fst_otm/0-27",
     "output_file": "static_json_data_ref.js",
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_ref.js",
@@ -70,7 +70,7 @@
     ]
   },
   {
-    "generator_name": "Маршруты",
+    "generator_name": "trips",
     "target_url": "https://fst-otm.net/index/test/0-21",
     "output_file": "static_json_data_trips.js",
     "remote_file": "/www/fst-otm.yurboc.ru/static_json_data_trips.js",
