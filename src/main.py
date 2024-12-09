@@ -72,6 +72,7 @@ def on_new_task_message(ch, method, properties, body):
     try:
         msg = json.loads(body.decode())  # get job name from message
         msg_job = msg.get("job", "no_job")
+        msg_uuid = msg.get("uuid", "no_uuid")
     except:
         logger.warning(
             f"Error decoding incoming message: {body.decode()}", exc_info=True
@@ -93,6 +94,23 @@ def on_new_task_message(ch, method, properties, body):
         convert_table(converter, table_params)
         upload_table(uploader, table_params)
         logger.info(f"Done table {table_params['generator_name']}!")
+        message_json = json.dumps(
+            {
+                "uuid": msg_uuid,
+                "table": table_params["generator_name"],
+                "result": "done",
+            }
+        )
+        connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+        channel = connection.channel()
+        channel.queue_declare(queue="results_queue", durable=True)
+        channel.basic_publish(
+            exchange="",
+            routing_key="results_queue",
+            body=message_json,
+        )
+        connection.close()
+        logger.info("Done publishing result!")
     uploader.quit()
     ch.basic_ack(delivery_tag=method.delivery_tag)
     logger.info("Done converting!")
