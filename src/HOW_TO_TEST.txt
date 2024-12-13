@@ -12,5 +12,5 @@ sudo rabbitmqctl list_queues
 rabbitmqadmin publish routing_key='tasks_queue' payload='{"job": "all"}'
 rabbitmqadmin get queue='results_queue' ackmode=ack_requeue_true count=100
 
-rabbitmqadmin delete queue name=task_queue
-rabbitmqadmin delete queue name=results_queue
+rabbitmqadmin delete queue name='tasks_queue'
+rabbitmqadmin delete queue name='results_queue'
