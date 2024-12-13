@@ -1,0 +1,5 @@
+sudo cp fst-otm-tables.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable fst-otm-tables.service
+sudo systemctl start fst-otm-tables.service
+sudo service fst-otm-tables status

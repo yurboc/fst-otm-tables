@@ -1,0 +1,15 @@
+[Unit]
+Description=FST-OTM table converter
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python /home/yurboc/projects/fst-otm-tables/src/main.py
+WorkingDirectory=/home/yurboc/projects/fst-otm-tables/src/
+User=yurboc
+Group=yurboc
+StandardOutput=journal
+StandardError=journal
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

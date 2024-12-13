@@ -1,0 +1,16 @@
+Values for "job":
+  "all"
+  "sportsmeny"
+  "razrjad_docs"
+  "sportivnye_sudi"
+  "trips"
+
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl status
+sudo rabbitmqctl list_queues
+
+rabbitmqadmin publish routing_key='tasks_queue' payload='{"job": "all"}'
+rabbitmqadmin get queue='results_queue' ackmode=ack_requeue_true count=100
+
+rabbitmqadmin delete queue name=task_queue
+rabbitmqadmin delete queue name=results_queue
